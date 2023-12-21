@@ -82,7 +82,28 @@ for page in range(0, 25):
             list_gambar.append(x.get('src'))
 
 
-data = pd.DataFrame(list(zip(list_nama, list_produk, list_kontak, list_wa, list_lokasi, list_lantai, list_parkir, list_profil, list_gambar)), 
-                    columns=['Nama', "Produk", "Kontak", "WhatsApp", "Lokasi", 'Lantai', "Lokasi Parkir", "Link Toko", "Link Gambar"])
+data = pd.DataFrame(list(zip(
+    list_nama, 
+    list_produk, 
+    list_kontak, 
+    list_wa, 
+    list_lokasi, 
+    list_lantai, 
+    list_parkir, 
+    list_profil, 
+    list_gambar)), 
+    
+    columns=[
+        'Nama', 
+        "Produk", 
+        "Kontak", 
+        "WhatsApp", 
+        "Lokasi", 
+        'Lantai', 
+        "Lokasi Parkir", 
+        "Link Toko", 
+        "Link Gambar"])
 
-data.to_csv('Assignment1_bs&rq.csv', index=False)
+data.to_csv(
+    link.lstrip('https://www.').split('/')[0].replace('.', '_').strip()+'.csv', 
+    index=False)
