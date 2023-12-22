@@ -56,7 +56,7 @@ while True:
         list_jam.append(jam)
         list_maps.append('')
 
-
+    print('Saving Data...')
     data = pd.DataFrame(list(zip(
         list_nama,
         list_lokasi, 
@@ -68,8 +68,9 @@ while True:
             "Alamat", 
             "Jam",
             "URL Store"])
-
-    data.to_csv(link.lstrip('https://www.').split('/')[0].replace('.', '_')+'.csv', 
-        index=False)
     
+    file_name = link.lstrip('https://www.').split('/')[0].replace('.', '_')+'.csv'
+    data.to_csv(file_name, index=False)
+
+    print('Data Saved: ', file_name)
     break

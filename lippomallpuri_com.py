@@ -12,6 +12,7 @@ list_kontak   = []
 list_parkir   = []
 list_kategori = []
 list_url      = []
+list_web      = []
 
 headers = {'user-agent': UserAgent().random}
 link = 'https://lippomallpuri.com/tenant'
@@ -37,6 +38,10 @@ while True:
 
         try: kontak = " ".join(soup1.select_one('div:nth-of-type(3) font').text.split())
         except: kontak = ''
+        if kontak.startswith('Visit'):
+            web = soup1.select_one('.detailMenu.left a.btnNew1')['href']
+            kontak = ''
+        else: web = ''
         try: parking = " ".join(
             soup1.select_one('div.detailMenu:nth-of-type(6)').text
             .split()).lstrip('Nearest Parking Area :').strip()
@@ -45,6 +50,7 @@ while True:
             .split()).lstrip('Nearest Parking Area :').strip()
 
         print([nama, lokasi, kontak, parking, kategori])
+        if web != '': print(web)
         idx += 1
 
         list_nama.append(nama)
@@ -53,14 +59,16 @@ while True:
         list_parkir.append(parking)
         list_kategori.append(kategori)
         list_url.append(url_store)
+        list_web.append(web)
 
-        
+    print('Saving Data...')
     data = pd.DataFrame(list(zip(
         list_nama, 
         list_lokasi,
         list_kontak, 
         list_parkir,
         list_kategori,
+        list_web,
         list_url)), 
         
         columns=[
@@ -69,9 +77,11 @@ while True:
             "Kontak", 
             "Parkir",
             "Kategori",
+            "Tenant Web",
             "URL Tenant"])
 
-    data.to_csv(link.lstrip('https://www.').split('/')[0].replace('.', '_').strip()+'.csv', 
-        index=False)
+    file_name = link.lstrip('https://www.').split('/')[0].replace('.', '_')+'.csv'
+    data.to_csv(file_name, index=False)
     
+    print('Data Saved.')
     break
